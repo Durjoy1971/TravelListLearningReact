@@ -9,7 +9,7 @@ const OutputDesign = ({
   setObjectValue: React.Dispatch<React.SetStateAction<objectType[]>>;
 }) => {
   const [type, setType] = useState<number>(1);
-  
+
   const handleCheckBox = (idNumber: number) => {
     setObjectValue(
       objectValue.map((singleObj) => {
@@ -40,36 +40,37 @@ const OutputDesign = ({
       <div className="max-w-md mx-auto">
         <ul className="grid grid-cols-2 gap-2">
           {[...objectValue]
-            .sort((a,b) => {
-                if(type === 2) {
-                    if(a.text === b.text) return 0;
-                    else if(a.text > b.text) return 1;
-                    else return -1;
-                }
-                else if(type === 3) {
-                    if(a.checked && b.checked) return 1;
-                    else if(a.checked) return 1;
-                    else return -1;
-                }
-                return a.id - b.id;
+            .sort((a, b) => {
+              if (type === 2) {
+                if (a.text === b.text) return 0;
+                else if (a.text > b.text) return 1;
+                else return -1;
+              } else if (type === 3) {
+                if (a.checked && b.checked) return 1;
+                else if (a.checked) return 1;
+                else return -1;
+              }
+              return a.id - b.id;
             })
             .map((singleObj) => {
-            return (
-              <Fragment key={singleObj.id}>
-                <div className="flex gap-2 items-center">
-                  <input
-                    type="checkbox"
-                    checked={singleObj.checked}
-                    onChange={() => handleCheckBox(singleObj.id)}
-                  />
-                  <li className="text-white font-roboto text-center">
-                    {singleObj.count + " " + singleObj.text}
-                  </li>
-                  <button onClick={() => handleDelete(singleObj.id)}>❌</button>
-                </div>
-              </Fragment>
-            );
-          })}
+              return (
+                <Fragment key={singleObj.id}>
+                  <div className="flex gap-2 items-center">
+                    <input
+                      type="checkbox"
+                      checked={singleObj.checked}
+                      onChange={() => handleCheckBox(singleObj.id)}
+                    />
+                    <li className={`font-roboto text-center ${singleObj.checked ? "line-through text-yellow-300 " : "text-white"	}`}>
+                      {singleObj.count + " " + singleObj.text}
+                    </li>
+                    <button onClick={() => handleDelete(singleObj.id)}>
+                      ❌
+                    </button>
+                  </div>
+                </Fragment>
+              );
+            })}
         </ul>
       </div>
       <div className="max-w-[28rem] mx-auto mt-10 flex gap-6 font-roboto">
